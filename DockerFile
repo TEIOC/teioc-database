@@ -1,0 +1,19 @@
+# Utiliser l'image officielle de MariaDB
+FROM mariadb:latest
+
+# Mettre à jour les paquets et installer les utilitaires nécessaires
+RUN apt-get update && apt-get install -y \
+    vim \
+    less
+
+# Copier le fichier .sql dans le conteneur
+COPY ./data.sql /docker-entrypoint-initdb.d/
+
+# Configurer les variables d'environnement pour la base de données
+ENV MYSQL_DATABASE=teioc
+ENV MYSQL_USER=teioc_user
+ENV MYSQL_PASSWORD=teioc_password
+ENV MYSQL_ROOT_PASSWORD=teioc_password
+
+# Exposer le port de la base de données
+EXPOSE 3306
